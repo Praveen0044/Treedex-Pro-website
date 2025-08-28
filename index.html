@@ -4,7 +4,453 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Treedex Pro - AI Crypto Trading</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Product+Sans:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Product Sans', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3vw;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 35px;
+            width: auto;
+        }
+
+        #logos-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #95C11E;
+        }
+
+        #cnt-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        #cnt-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        #cnt-nav a:hover {
+            color: #95C11E;
+        }
+
+        #cnt-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #95C11E;
+            transition: width 0.3s ease;
+        }
+
+        #cnt-nav a:hover::after {
+            width: 100%;
+        }
+
+        nav button {
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, #95C11E, #7BA428);
+            color: black;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        nav button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Container */
+        .main {
+            position: relative;
+            background-color: #0F0D0D;
+        }
+
+        /* Page 1 - Hero Section */
+        .page1 {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .page1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .page1 h1 {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 300;
+            margin-bottom: 20px;
+            position: relative;
+            background: linear-gradient(135deg, #ffffff, #95C11E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page1 h2 {
+            font-size: clamp(2.5rem, 6vw, 6rem);
+            font-weight: 300;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #95C11E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #info {
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        #info h4 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        /* Bot Image */
+        .bot {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .bot img {
+            width: 15vw;
+            max-width: 200px;
+            min-width: 150px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(149, 193, 30, 0.3));
+        }
+
+        /* Page 2 - About Section */
+        .page2 {
+            min-height: 100vh;
+            width: 100%;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        .page2-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .page2-left button {
+            background: #95C11E;
+            color: black;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .page2-left h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #333;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        .page2-right p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Page 3 - Platform Section */
+        .page3 {
+            min-height: 100vh;
+            width: 100%;
+            background: #1a1a1a;
+            padding: 120px 0 80px;
+            color: white;
+        }
+
+        .page3-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .page3 h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #95C11E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .platform-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(149, 193, 30, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            color: #95C11E;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        /* Page 4 - Trading Section */
+        .page4 {
+            min-height: 100vh;
+            width: 100%;
+            background: linear-gradient(135deg, #95C11E, #7BA428);
+            padding: 120px 0 80px;
+            color: white;
+        }
+
+        .page4-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .page4 h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .trading-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* Page 5 - Contact Section */
+        .page5 {
+            min-height: 100vh;
+            width: 100%;
+            background: #0F0D0D;
+            padding: 120px 0 80px;
+            color: white;
+        }
+
+        .page5-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .page5 h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #95C11E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 15px;
+            border: 2px solid #333;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .contact-form button {
+            padding: 15px;
+            background: linear-gradient(135deg, #95C11E, #7BA428);
+            color: black;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Fixed Bot (Small Version) */
+        .bot-fixed {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .bot-fixed img {
+            width: 60px;
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(149, 193, 30, 0.3));
+        }
+
+        .bot-fixed.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page2-container,
+            .page4-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .bot {
+                position: static;
+                transform: none;
+                text-align: center;
+                margin-top: 40px;
+            }
+
+            .bot img {
+                width: 50vw;
+                max-width: 250px;
+            }
+
+            #cnt-nav {
+                display: none;
+            }
+
+            nav {
+                padding: 0 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -27,7 +473,7 @@
 
     <!-- Fixed Bot (appears after scrolling) -->
     <div class="bot-fixed" id="botFixed">
-        <img src="../Bot.webp" alt="Trading Bot">
+        <img src="./Bot.webp" alt="Trading Bot">
     </div>
 
     <!-- Main Content -->
@@ -35,7 +481,8 @@
         <!-- Page 1 - Hero Section -->
         <section class="page1" id="page1">
             <video class="background-video" autoplay muted loop>
-                <source src="Tradeview.mp4" type="video/mp4">
+                <source src="./Tradeview.mp4" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
             
             <div class="hero-content">
@@ -50,7 +497,7 @@
             </div>
 
             <div class="bot" id="mainBot">
-                <img src="https://via.placeholder.com/200x200/95C11E/000000?text=BOT" alt="AI Trading Bot">
+                <img src="./Bot.webp" alt="AI Trading Bot">
             </div>
         </section>
 
@@ -177,6 +624,201 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/build/locomotive-scroll.min.js"></script>
 
-   
+    <script>
+        // Initialize GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+        
+        let locoScroll;
+
+        function initLocomotiveScroll() {
+            locoScroll = new LocomotiveScroll({
+                el: document.querySelector('.main'),
+                smooth: true,
+                multiplier: 1,
+                class: 'is-reveal'
+            });
+
+            locoScroll.on('scroll', ScrollTrigger.update);
+
+            ScrollTrigger.scrollerProxy('.main', {
+                scrollTop(value) {
+                    return arguments.length 
+                        ? locoScroll.scrollTo(value, 0, 0) 
+                        : locoScroll.scroll.instance.scroll.y;
+                },
+                getBoundingClientRect() {
+                    return {
+                        top: 0,
+                        left: 0,
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                    };
+                },
+                pinType: document.querySelector('.main').style.transform ? 'transform' : 'fixed'
+            });
+
+            ScrollTrigger.addEventListener('refresh', () => locoScroll.update());
+            ScrollTrigger.refresh();
+        }
+
+        function createAnimations() {
+            // Hero text animations
+            const heroTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#hero-title',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 20%',
+                    scrub: 1
+                }
+            });
+
+            heroTl
+                .to('#hero-title', { x: 100, duration: 1 }, 'hero')
+                .to('#hero-subtitle', { x: -100, duration: 1 }, 'hero')
+                .to('#info h4', { x: 50, opacity: 0.7, duration: 1 }, 'hero');
+
+            // Bot animation - move from main position to fixed
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.page2',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 20%',
+                    scrub: 1,
+                    onEnter: () => {
+                        document.getElementById('botFixed').classList.add('active');
+                        gsap.to('#mainBot', { opacity: 0, scale: 0, duration: 0.5 });
+                    },
+                    onLeaveBack: () => {
+                        document.getElementById('botFixed').classList.remove('active');
+                        gsap.to('#mainBot', { opacity: 1, scale: 1, duration: 0.5 });
+                    }
+                }
+            });
+
+            // Background color changes
+            const colorTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.page2',
+                    scroller: '.main',
+                    start: 'top 70%',
+                    end: 'bottom 30%',
+                    scrub: 1
+                }
+            });
+
+            // Page 2 animations
+            gsap.from('.page2-left', {
+                scrollTrigger: {
+                    trigger: '.page2',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 50%',
+                    scrub: 1
+                },
+                x: -100,
+                opacity: 0
+            });
+
+            gsap.from('.page2-right', {
+                scrollTrigger: {
+                    trigger: '.page2',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 50%',
+                    scrub: 1
+                },
+                x: 100,
+                opacity: 0
+            });
+
+            // Page 3 animations
+            gsap.from('.feature-card', {
+                scrollTrigger: {
+                    trigger: '.page3',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 50%',
+                    scrub: 1
+                },
+                y: 100,
+                opacity: 0,
+                stagger: 0.2
+            });
+
+            // Page 4 animations
+            gsap.from('.stat-item', {
+                scrollTrigger: {
+                    trigger: '.page4',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 50%',
+                    scrub: 1
+                },
+                scale: 0.8,
+                opacity: 0,
+                stagger: 0.1
+            });
+
+            // Page 5 animations
+            gsap.from('.contact-form', {
+                scrollTrigger: {
+                    trigger: '.page5',
+                    scroller: '.main',
+                    start: 'top 80%',
+                    end: 'top 50%',
+                    scrub: 1
+                },
+                y: 50,
+                opacity: 0
+            });
+        }
+
+        function init() {
+            initLocomotiveScroll();
+            createAnimations();
+        }
+
+        // Utility functions
+        function bookMeeting() {
+            alert('Booking functionality would be implemented here!');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Form submitted! We will get back to you soon.');
+        }
+
+        // Smooth scrolling for navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('#cnt-nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection && locoScroll) {
+                        locoScroll.scrollTo(targetSection);
+                    }
+                });
+            });
+        });
+
+        // Navbar background change on scroll
+        if (locoScroll) {
+            locoScroll.on('scroll', (args) => {
+                const navbar = document.getElementById('navbar');
+                if (args.scroll.y > 50) {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+                } else {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.8)';
+                }
+            });
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', init);
+    </script>
 </body>
 </html>
